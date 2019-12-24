@@ -1,0 +1,41 @@
+App
+-----
+logging - app.logger.info("This is a log message"
+
+Templates:
+include below while extending
+{% block content %}
+{% endblock %}
+
+- Templates directory is relative to app.py
+- We can also specify Blueprint specific templtes directory
+
+Add methods in route functions:
+methods=['GET', 'POST']
+
+DB:
+# before initial run of app.py below command from location of app.py
+# activate virtualenv
+# export FLASK_APP=app.py
+# flask db init
+# flask db migrate -m "initial setup"
+# flask db upgrade
+
+form classes also contains valiadation checks and hence need to interact with DB using objects of Model classes
+
+Always remember to add 'db.session.commit()'
+
+Always do a DB migration after modifying model classes:
+flask db migrate -m "changed table name"
+flask db upgrade
+
+
+Forms:
+--------
+-form.validate_on_submit() will not work without '{{ form.hidden_tag() }}' in html form.
+
+- Field validation functions need have format validate_<field_name> as specified within flask-wtf
+eg: def validate_username(self, field):
+Ref[1]: https://stackoverflow.com/questions/54582898/flaskform-validation-code-checking-if-a-user-already-exists-or-not
+Ref[2]: https://wtforms.readthedocs.io/en/stable/forms.html#in-line-validators
+Ref[3]: https://stackoverflow.com/questions/31687044/how-does-wtforms-know-to-use-validate-field-name-if-it-is-defined-to-validate

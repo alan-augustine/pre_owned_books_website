@@ -1,0 +1,25 @@
+from pre_owned_books import db, login_manager
+from flask_login import UserMixin
+from werkzeug.security import generate_password_hash, check_password_hash
+
+
+# This class represents a table to store User data
+# We interact with the DB(Sqlite) through db object(imported above) and objects of User class
+class User(db.Model, UserMixin):
+
+    #__tablename__ = 'users'
+
+    # id is auto-generated
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(30), unique=True, nullable=False)
+    password_hash = db.Column(db.String(255), nullable=False)
+
+    def __init__(self, username, password_plain_text):
+        self.username = username
+        self.password_hash = generate_password_hash(password_plain_text)
+
+    def check_password(self, password_text):
+        return check_password_hash(self.password_hash, password_text)
+
+    def __repr__(self):
+        return "This is DB entry for user: " + self.username

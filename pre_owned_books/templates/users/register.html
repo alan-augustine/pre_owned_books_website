@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Register:</h1>
+<! --
+Below Form has method specified as post. This is to hide sensitive data.
+Query string (name/value pairs) is sent in the URL of a GET request.
+eg: GET /users/register?username=user1&password=password&password_confirm=password&submit=Register
+
+The data sent to the server with POST is stored in the request body of the HTTP request.
+So, sensitive data like passwords will not be visible in the URL
+-->
+<form method="POST">
+    {# hidden_tag is a CSRF security feature #}
+    {# form.validate_on_submit() will not work without this hidden tag #}
+    {{ form.hidden_tag() }}
+    {{ form.username.label }} {{ form.username() }}<br>
+    {{ form.password.label }} {{ form.password() }}<br>
+    {{ form.password_confirm.label }} {{ form.password_confirm() }}<br>
+    {{ form.submit() }}<br>
+</form>
+{% endblock %}
