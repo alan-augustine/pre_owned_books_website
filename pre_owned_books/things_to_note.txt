@@ -29,6 +29,10 @@ Always do a DB migration after modifying model classes:
 flask db migrate -m "changed table name"
 flask db upgrade
 
+Remember to specify user loader function in models.py:
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(user_id)
 
 Forms:
 --------

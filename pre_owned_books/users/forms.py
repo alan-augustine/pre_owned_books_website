@@ -4,6 +4,7 @@ from wtforms.validators import DataRequired, EqualTo
 from pre_owned_books.models import User
 from wtforms import ValidationError
 
+
 class RegistrationForm(FlaskForm):
     username = StringField('User Name: ', validators=[DataRequired()])
     password = PasswordField('Password: ',
@@ -17,3 +18,14 @@ class RegistrationForm(FlaskForm):
     def validate_username(self, field):
         if User.query.filter_by(username=field.data).first():
             raise ValidationError("Username already taken..")
+
+
+class LoginForm(FlaskForm):
+    username = StringField("Username: ", validators=[DataRequired()])
+    password = PasswordField("Password: ", validators=[DataRequired()])
+    submit = SubmitField("Login!")
+
+    def validate_username(self, field):
+        # If user is not present in DB, deny login
+        if not User.query.filter_by(username=field.data):
+            raise ValidationError("Username does not exists!")

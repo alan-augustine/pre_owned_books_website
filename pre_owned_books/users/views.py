@@ -1,7 +1,8 @@
-from pre_owned_books.users.forms import RegistrationForm
+from pre_owned_books.users.forms import RegistrationForm, LoginForm
 from pre_owned_books import db, app
-from flask import render_template, Blueprint
+from flask import render_template, Blueprint, request, redirect, url_for
 from pre_owned_books.models import User
+from flask_login import login_user
 
 users_blueprint = Blueprint('users_blueprint', __name__, url_prefix='/users')
 
@@ -24,6 +25,32 @@ def register():
     # if request method is 'GET', return registration form
     return render_template('users/register.html', form=form)
 
+@users_blueprint.route('/login', methods=['GET', 'POST'])
+def login():
+    form = LoginForm()
+    if form.validate_on_submit():
+        # Check if username exists in DB
+        user = User.query.filter_by(username=form.username.data).first()
+        app.logger.info("Trying to log in user: " + user.username)
+
+        # Check username was provided in form and check whether password is correct
+        # check_password method is defined in User Model class
+        if user.check_password(form.password.data) and user is not None:
+            login_user(user)
+            app.logger.info("Successfully logged-in user: " + user.username)
+            # If user was trying to access a URL that require login, Flask saves that URL as 'next'
+            next_url = request.args.get('next')
+            # TODO: what does not next[0]=='/'  means ?
+            if next_url is  None:
+                # Go to Home Page
+                next_url = url_for('core_blueprint.index')
+            return redirect(next_url)
+    # If GET HTTP method
+    return render_template('users/login.html', form=form)
+
+
+
+# Below is just for debugging puposes
 @users_blueprint.route('/all_users')
 def all_users():
     user_list_string = '[ '
