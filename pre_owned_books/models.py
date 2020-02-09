@@ -9,9 +9,12 @@ from werkzeug.security import generate_password_hash, check_password_hash
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(user_id)
+    #TODO: return None (not raise an exception) if the ID is not valid
 
 # This class represents a table to store User data
-# We interact with the DB(Sqlite) through db object(imported above) and objects of User class
+# We interact with the DB(Sqlite) through db object(imported above) and objects of 'User' class
+# UserMixin - provides default implementations for the methods that Flask-Login expects user objects to have
+# https://flask-login.readthedocs.io/en/latest/#user-object-helpers
 class User(db.Model, UserMixin):
 
     #__tablename__ = 'users'

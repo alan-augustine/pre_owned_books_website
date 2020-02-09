@@ -1,14 +1,14 @@
 App
 -----
-logging - app.logger.info("This is a log message"
+logging - app.logger.info("This is a log message")
 
-Templates:
+Templates - if your messages not visible:
 include below while extending
 {% block content %}
 {% endblock %}
 
 - Templates directory is relative to app.py
-- We can also specify Blueprint specific templtes directory
+- We can also specify Blueprint specific templates directory
 
 Add methods in route functions:
 methods=['GET', 'POST']
@@ -21,7 +21,7 @@ DB:
 # flask db migrate -m "initial setup"
 # flask db upgrade
 
-form classes also contains valiadation checks and hence need to interact with DB using objects of Model classes
+form classes also contains validation checks and hence need to interact with DB using objects of Model classes
 
 Always remember to add 'db.session.commit()'
 
@@ -34,6 +34,10 @@ Remember to specify user loader function in models.py:
 def load_user(user_id):
     return User.query.get(user_id)
 
+Always use '.first()' when querying for a field:
+User.query.filter_by(username=form.username.data).first()
+Otherwise even if no data , during tests using if, the test may become success instead of a failure
+
 Forms:
 --------
 -form.validate_on_submit() will not work without '{{ form.hidden_tag() }}' in html form.
@@ -43,3 +47,6 @@ eg: def validate_username(self, field):
 Ref[1]: https://stackoverflow.com/questions/54582898/flaskform-validation-code-checking-if-a-user-already-exists-or-not
 Ref[2]: https://wtforms.readthedocs.io/en/stable/forms.html#in-line-validators
 Ref[3]: https://stackoverflow.com/questions/31687044/how-does-wtforms-know-to-use-validate-field-name-if-it-is-defined-to-validate
+
+- It is always better to validate field values like username, password in Form class rather than view function
+  This way, we can encapsulate all functionalities (like validation) in single class
