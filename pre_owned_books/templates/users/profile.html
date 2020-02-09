@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{# Ref: https://flask.palletsprojects.com/en/1.1.x/patterns/wtforms/#forms-in-templates #}
+{% from "_formhelpers.html" import render_field %}
+
+{% block content %}
+
+<h1>Profile of {{ current_user.username|upper }} </h1>
+
+{% endblock %}

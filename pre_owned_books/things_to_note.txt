@@ -15,7 +15,7 @@ methods=['GET', 'POST']
 
 DB:
 # before initial run of app.py below command from location of app.py
-# activate virtualenv
+# activate virtualenv_name
 # export FLASK_APP=app.py
 # flask db init
 # flask db migrate -m "initial setup"
@@ -26,6 +26,8 @@ form classes also contains validation checks and hence need to interact with DB 
 Always remember to add 'db.session.commit()'
 
 Always do a DB migration after modifying model classes:
+activate virtualenv_name
+export FLASK_APP=app.py
 flask db migrate -m "changed table name"
 flask db upgrade
 

@@ -68,3 +68,8 @@ def all_users():
 def logout():
     logout_user()
     return render_template('users/logout.html')
+
+@login_required
+@users_blueprint.route('/profile')
+def profile():
+    return render_template('users/profile.html')
