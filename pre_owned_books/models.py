@@ -21,11 +21,19 @@ class User(db.Model, UserMixin):
 
     # id is auto-generated
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(30), unique=True, nullable=False)
+    username = db.Column(db.String(30), unique=True, nullable=False, index=True)
+    first_name = db.Column(db.String(50), nullable=False)
+    last_name = db.Column(db.String(50), nullable=False)
+    email = db.Column(db.String(50), unique=True, nullable=False)
     password_hash = db.Column(db.String(255), nullable=False)
+    age = db.Column(db.Integer, nullable=False)
 
-    def __init__(self, username, password_plain_text):
+    def __init__(self, username, first_name, last_name, email, password_plain_text, age):
         self.username = username
+        self.first_name = first_name
+        self.last_name = last_name
+        self.email = email
+        self.age = age
         self.password_hash = generate_password_hash(password_plain_text)
 
     def check_password(self, password_text):

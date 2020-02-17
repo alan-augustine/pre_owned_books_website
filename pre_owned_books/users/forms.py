@@ -1,16 +1,19 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, PasswordField
-from wtforms.validators import DataRequired, EqualTo
+from wtforms import StringField, SubmitField, PasswordField, IntegerField
+from wtforms.validators import DataRequired, EqualTo, Email
 from pre_owned_books.models import User
 from wtforms import ValidationError
-from pre_owned_books import app
 
 class RegistrationForm(FlaskForm):
     username = StringField('User Name: ', validators=[DataRequired()])
+    first_name = StringField('First Name: ', validators=[DataRequired()])
+    last_name = StringField('Last Name: ', validators=[DataRequired()])
+    email = StringField('Email: ', validators=[DataRequired(), Email()])
     password = PasswordField('Password: ',
                              validators=[DataRequired(), EqualTo('password_confirm',
                                                                  message='Passwords must match')])
     password_confirm = PasswordField('Re-Enter Password: ', validators=[DataRequired()])
+    age = IntegerField('Age: ', validators=[DataRequired()])
     submit = SubmitField('Register')
 
     # Field validations functions should have name validate_<field_name>

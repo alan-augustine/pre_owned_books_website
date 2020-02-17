@@ -17,9 +17,13 @@ So, sensitive data like passwords will not be visible in the URL
     {# hidden_tag is a CSRF security feature #}
     {# form.validate_on_submit() will not work without this hidden tag #}
     {{ form.hidden_tag() }}
+    {{ render_field(form.first_name) }}
+    {{ render_field(form.last_name) }}
+    {{ render_field(form.email) }}
     {{ render_field(form.username) }}
     {{ render_field(form.password) }}
     {{ render_field(form.password_confirm) }}
+    {{ render_field(form.age) }}
     {{ form.submit() }}<br>
 
 </form>

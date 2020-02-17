@@ -2,7 +2,9 @@ App
 -----
 logging - app.logger.info("This is a log message")
 
-Templates - if your messages not visible:
+Templates
+----------
+if your messages not visible:
 include below while extending
 {% block content %}
 {% endblock %}
@@ -13,7 +15,8 @@ include below while extending
 Add methods in route functions:
 methods=['GET', 'POST']
 
-DB:
+DataBase
+----------
 # before initial run of app.py below command from location of app.py
 # activate virtualenv_name
 # export FLASK_APP=app.py
@@ -52,3 +55,23 @@ Ref[3]: https://stackoverflow.com/questions/31687044/how-does-wtforms-know-to-us
 
 - It is always better to validate field values like username, password in Form class rather than view function
   This way, we can encapsulate all functionalities (like validation) in single class
+
+Errors
+--------
+error 1:
+sqlalchemy.exc.OperationalError: (sqlite3.OperationalError) Cannot add a NOT NULL column with default value NULL
+[SQL: ALTER TABLE user ADD COLUMN age INTEGER NOT NULL]
+
+Context:
+Added below column and migrated:
+age = db.Column(db.Integer, nullable=False)
+
+Issue:
+- Some records were already present in DB and for these , no age column was present
+- we specified age column as not nullable, but for rows already present, these are null
+
+Fix:
+- I just removed data.sqlite and migrations directory and initialized DB from start
+- Or, pass a default value as db.Column(db.Integer, nullable=False, default=0) - didn't try
+  (Ref:https://github.com/miguelgrinberg/Flask-Migrate/issues/81#issuecomment-139608716)
+

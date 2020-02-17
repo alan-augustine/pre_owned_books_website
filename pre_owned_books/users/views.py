@@ -16,8 +16,12 @@ def register():
     if form.validate_on_submit():
         app.logger.info("SUBMITTED registration form...........")
         username = form.username.data
+        first_name = form.first_name.data
+        last_name = form.last_name.data
+        email = form.email.data
         password = form.password.data
-        new_user = User(username, password)
+        age = form.age.data
+        new_user = User(username, first_name, last_name, email, password, age)
         db.session.add(new_user)
         db.session.commit()
         app.logger.info("Added a User...........")
